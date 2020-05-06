@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+  network-devices-scanner:
+    image: charlesomer/network-devices-scanner
+    network_mode: host
+    volumes:
+      - ./network-devices-scanner/config.json:/config.json
+      - ./network-devices-scanner/devices.json:/devices.json
+    restart: always
+    logging:
+      options:
+        max-size: "200k"
+        max-file: "10"

@@ -1,0 +1,4 @@
+{
+  "request-when-devices-are-home": "REQUEST_HERE",
+  "request-when-devices-are-not-home": "REQUEST_HERE"
+}

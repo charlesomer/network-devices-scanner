@@ -1,0 +1,10 @@
+{
+    "MAC_ADDRESS_HERE": {
+        "name": "NAME_HERE",
+        "ip": "IP_ADDRESS_HERE"
+    },
+    "MAC_ADDRESS_HERE2": {
+        "name": "NAME_HERE",
+        "ip": "IP_ADDRESS_HERE"
+    }
+}
