@@ -25,13 +25,17 @@ def checkForDevices(sc):
             tempScan = nm.scan(data[deviceMac]['ip'])
             print("Scanned. Now get mac address of IP address " + data[deviceMac]['ip'])
             macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
-            print("Done. Mac address for " + data[deviceMac]['ip'] + " is " + macAddressOfIPOnTheNetwork)
-            if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == deviceMac:
-                # This device is on the network and correct IP is stored in json.
-                print(data[deviceMac]['name'] + " is on the network and the IP address is " + data[deviceMac]['ip'])
-                isSomeoneHome = 1
-            elif macAddressOfIPOnTheNetwork != deviceMac:
-                print("Stored IP address for " + data[deviceMac]['name'] + " is incorrect and will be updated if available.")
+            if macAddressOfIPOnTheNetwork != None:
+                print("Done. Mac address for " + data[deviceMac]['ip'] + " is " + macAddressOfIPOnTheNetwork)
+                if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == deviceMac:
+                    # This device is on the network and correct IP is stored in json.
+                    print(data[deviceMac]['name'] + " is on the network and the IP address is " + data[deviceMac]['ip'])
+                    isSomeoneHome = 1
+                elif macAddressOfIPOnTheNetwork != deviceMac:
+                    print("Stored IP address for " + data[deviceMac]['name'] + " is incorrect and will be updated if available.")
+                    rescanNetwork = 1
+            elif:
+                print("Done. No device exists at IP address " + data[deviceMac]['ip'] + ". JSON will be updated.")
                 rescanNetwork = 1
             print()
 
