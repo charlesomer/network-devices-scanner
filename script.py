@@ -34,7 +34,7 @@ def checkForDevices(sc):
                 elif macAddressOfIPOnTheNetwork != deviceMac:
                     print("Stored IP address for " + data[deviceMac]['name'] + " is incorrect and will be updated if available.")
                     rescanNetwork = 1
-            elif:
+            else:
                 print("Done. No device exists at IP address " + data[deviceMac]['ip'] + ". JSON will be updated.")
                 rescanNetwork = 1
             print()
