@@ -1,6 +1,6 @@
 import sched, time
 import json
-import nmap
+import nmap3
 import requests
 from getmac import get_mac_address
 
@@ -9,7 +9,7 @@ runEveryXSeconds = 60 * 10
 
 def checkForDevices(sc):
 
-    nm = nmap.PortScanner()
+    nmap = nmap3.Nmap()
     data = None
     updateJsonFile = 0
     isSomeoneHome = 0
@@ -22,7 +22,7 @@ def checkForDevices(sc):
         data = json.load(json_file)
         for deviceMac in data:
             print("Scanning for " + data[deviceMac]['name'] + " (" + deviceMac + ") using IP address: " + data[deviceMac]['ip'])
-            tempScan = nm.scan(data[deviceMac]['ip'])
+            tempScan = nmap.scan_top_ports(data[deviceMac]['ip'])
             print("Scanned. Now get mac address of IP address " + data[deviceMac]['ip'])
             macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
             if macAddressOfIPOnTheNetwork != None:
@@ -43,7 +43,7 @@ def checkForDevices(sc):
         print("Need to update some IP address, scanning networking now...")
         with open('/network-devices-scanner/config.json') as json_file:
             dataFile = json.load(json_file)
-            scan = nm.scan(dataFile['network'])
+            scan = nmap.scan_top_ports(dataFile['network'])
             print("Finished scanning network.")
             for scan_ip in scan['scan']:
                 for deviceMac in data:
