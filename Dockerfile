@@ -1,10 +1,11 @@
 FROM python
 
+WORKDIR /usr/src/app
+
 COPY requirements.txt ./
 COPY script.py ./
 
 RUN pip install --no-cache-dir -r requirements.txt
-RUN chmod +x ./script.py
 
 CMD ["python","-u","script.py"]
 
