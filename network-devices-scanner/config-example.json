@@ -1,4 +1,5 @@
 {
   "request-when-devices-are-home": "REQUEST_HERE",
-  "request-when-devices-are-not-home": "REQUEST_HERE"
+  "request-when-devices-are-not-home": "REQUEST_HERE",
+  "network": "192.168.0.0/24"
 }
