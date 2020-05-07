@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY script.py ./
 
-RUN apt-get install nmap
+RUN sudo apt-get install nmap
 
 CMD ["python","-u","script.py"]
 
