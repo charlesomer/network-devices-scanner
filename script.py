@@ -56,5 +56,6 @@ def checkForDevices(sc):
 
     s.enter(runEveryXSeconds, 1, checkForDevices, (sc,))
 
-s.enter(runEveryXSeconds, 1, checkForDevices, (s,))
+# Don't wait on first run.
+s.enter(1, 1, checkForDevices, (s,))
 s.run()
