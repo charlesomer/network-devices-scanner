@@ -19,25 +19,25 @@ def checkForDevices(sc):
 
     with open('/network-devices-scanner/devices.json') as json_file:
         data = json.load(json_file)
-        for device in data:
-            print("Checking " + data[device]['mac'])
-            tempScan = nm.scan(data[device]['ip'])
-            macAddressOfIPOnTheNetwork = get_mac_address(ip=data[device]['ip'])
-            if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == device['mac']:
+        for deviceMac in data:
+            print("Checking " + deviceMac
+            tempScan = nm.scan(data[deviceMac]['ip'])
+            macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
+            if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == deviceMac:
                 # This device is on the network.
-                print(data[device]['name'] + " is on the network.")
+                print(data[deviceMac]['name'] + " is on the network.")
                 isSomeoneHome = 1
 
-            if macAddressOfIPOnTheNetwork != data[device]['mac']:
+            if macAddressOfIPOnTheNetwork != deviceMac:
                 rescanNetwork = 1
 
     if rescanNetwork == 1:
         print("Scanning network and updating json if need be.")
         scan = nm.scan('192.168.0.0/24')
         for scan_ip in scan['scan']:
-            for device in data:
-                if get_mac_address(ip=scan_ip) == data[device]['mac']:
-                    data[device]['ip'] = scan_ip
+            for deviceMac in data:
+                if get_mac_address(ip=scan_ip) == deviceMac:
+                    data[deviceMac]['ip'] = scan_ip
                     isSomeoneHome = 1
                     updateJsonFile = 1
 
