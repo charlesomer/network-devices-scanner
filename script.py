@@ -45,10 +45,10 @@ def checkForDevices(sc):
             dataFile = json.load(json_file)
             scan = nmap.scan_top_ports(dataFile['network'])
             print("Finished scanning network.")
-            print(dataFile['network'])
-            print(scan)
             for scan_ip in scan:
+                print("IP: " + scan_ip)
                 for deviceMac in data:
+                    print("MAC: " + deviceMac)
                     if get_mac_address(ip=scan_ip) == deviceMac:
                         print(data[deviceMac]['name'] + " is on the network with IP address " + scan_ip)
                         data[deviceMac]['ip'] = scan_ip
