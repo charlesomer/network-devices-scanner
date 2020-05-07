@@ -1,13 +1,13 @@
-FROM python:3
+FROM python
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
+RUN apt-get install nmap -y
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY script.py ./
+COPY requirements.txt ./
 
-RUN sudo apt-get install nmap
+COPY script.py ./
 
 CMD ["python","-u","script.py"]
 
