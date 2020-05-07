@@ -17,7 +17,7 @@ def checkForDevices(sc):
 
     print("Checking known IPs")
 
-    with open('/devices.json') as json_file:
+    with open('/network-devices-scanner/devices.json') as json_file:
         data = json.load(json_file)
         for device in data:
             print("Checking " + data[device]['mac'])
@@ -42,11 +42,11 @@ def checkForDevices(sc):
                     updateJsonFile = 1
 
     if updateJsonFile == 1:
-        with open('/devices.json', 'w') as outfile:
+        with open('/network-devices-scanner/devices.json', 'w') as outfile:
             json.dump(data, outfile, indent=4)
             print("Updating JSON")
 
-    with open('/config.json') as json_file:
+    with open('/network-devices-scanner/config.json') as json_file:
         if isSomeoneHome == 1:
             requests.get(json_file['request-when-devices-are-home'])
             print("Devices are home.")
