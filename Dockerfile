@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 RUN apt-get update
 RUN apt-get install nmap -y
-RUN pip install --no-cache-dir -r requirements.txt
 
 COPY requirements.txt ./
-
 COPY script.py ./
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python","-u","script.py"]
 
