@@ -20,7 +20,7 @@ def checkForDevices(sc):
     with open('/network-devices-scanner/devices.json') as json_file:
         data = json.load(json_file)
         for deviceMac in data:
-            print("Checking " + deviceMac
+            print("Checking " + deviceMac)
             tempScan = nm.scan(data[deviceMac]['ip'])
             macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
             if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == deviceMac:
