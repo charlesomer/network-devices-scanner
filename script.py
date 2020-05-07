@@ -27,7 +27,7 @@ def checkForDevices(sc):
             macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
             if macAddressOfIPOnTheNetwork != None:
                 print("Done. Mac address for " + data[deviceMac]['ip'] + " is " + macAddressOfIPOnTheNetwork)
-                if tempScan['nmap']['scanstats']['downhosts'] != '1' and macAddressOfIPOnTheNetwork == deviceMac:
+                if tempScan[data[deviceMac]['ip']] != None and macAddressOfIPOnTheNetwork == deviceMac:
                     # This device is on the network and correct IP is stored in json.
                     print(data[deviceMac]['name'] + " is on the network and the IP address is " + data[deviceMac]['ip'])
                     isSomeoneHome = 1
@@ -45,7 +45,7 @@ def checkForDevices(sc):
             dataFile = json.load(json_file)
             scan = nmap.scan_top_ports(dataFile['network'])
             print("Finished scanning network.")
-            for scan_ip in scan['scan']:
+            for scan_ip in scan:
                 for deviceMac in data:
                     if get_mac_address(ip=scan_ip) == deviceMac:
                         print(data[deviceMac]['name'] + " is on the network with IP address " + scan_ip)
