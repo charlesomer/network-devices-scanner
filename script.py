@@ -49,6 +49,7 @@ def checkForDevices(sc):
                 print("IP: " + scan_ip)
                 for deviceMac in data:
                     print("MAC: " + deviceMac)
+                    print("IP MAC: " + get_mac_address(ip=scan_ip))
                     if get_mac_address(ip=scan_ip) == deviceMac:
                         print(data[deviceMac]['name'] + " is on the network with IP address " + scan_ip)
                         data[deviceMac]['ip'] = scan_ip
