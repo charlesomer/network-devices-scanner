@@ -1,0 +1,12 @@
+{
+    "MAC_ADDRESS_HERE": {
+        "name": "NAME_HERE",
+        "ip": "IP_ADDRESS_HERE",
+        "lastSeen": "2020-05-08 18:13"
+    },
+    "MAC_ADDRESS_HERE2": {
+        "name": "NAME_HERE",
+        "ip": "IP_ADDRESS_HERE",
+        "lastSeen": "2020-05-08 18:13"
+    }
+}
