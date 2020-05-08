@@ -4,7 +4,7 @@ services:
     image: charlesomer/network-devices-scanner
     network_mode: host
     volumes:
-      - ./network-devices-scanner:/network-devices-scanner
+      - ./network-devices-scanner:/usr/src/app/network-devices-scanner
     restart: always
     logging:
       options:

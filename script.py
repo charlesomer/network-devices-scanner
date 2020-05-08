@@ -18,56 +18,59 @@ def checkForDevices(sc):
     print("START")
     print("Checking for devices.")
 
-    with open('/network-devices-scanner/devices.json') as json_file:
+    with open('./network-devices-scanner/devices.json') as json_file:
         data = json.load(json_file)
         for deviceMac in data:
             print("Scanning for " + data[deviceMac]['name'] + " (" + deviceMac + ") using IP address: " + data[deviceMac]['ip'])
             tempScan = nmap.scan_top_ports(data[deviceMac]['ip'])
-            print("Scanned. Now get mac address of IP address " + data[deviceMac]['ip'])
-            macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip'])
-            if macAddressOfIPOnTheNetwork != None:
-                print("Done. Mac address for " + data[deviceMac]['ip'] + " is " + macAddressOfIPOnTheNetwork)
-                if tempScan[data[deviceMac]['ip']] != None and macAddressOfIPOnTheNetwork == deviceMac:
-                    # This device is on the network and correct IP is stored in json.
-                    print(data[deviceMac]['name'] + " is on the network and the IP address is " + data[deviceMac]['ip'])
-                    isSomeoneHome = 1
-                elif macAddressOfIPOnTheNetwork != deviceMac:
-                    print("Stored IP address for " + data[deviceMac]['name'] + " is incorrect and will be updated if available.")
+            print("Scanned.")
+            if data[deviceMac]['ip'] in tempScan:
+                print("Now get mac address of IP address " + data[deviceMac]['ip'])
+                macAddressOfIPOnTheNetwork = get_mac_address(ip=data[deviceMac]['ip']).upper()
+                if macAddressOfIPOnTheNetwork != None:
+                    print("Done. Mac address for " + data[deviceMac]['ip'] + " is " + macAddressOfIPOnTheNetwork)
+                    if macAddressOfIPOnTheNetwork == deviceMac:
+                        # This device is on the network and correct IP is stored in json.
+                        print(data[deviceMac]['name'] + " is on the network and the IP address is " + data[deviceMac]['ip'])
+                        isSomeoneHome = 1
+                    elif macAddressOfIPOnTheNetwork != deviceMac:
+                        print("Stored IP address for " + data[deviceMac]['name'] + " is incorrect and will be updated if available.")
+                        rescanNetwork = 1
+                else:
+                    print("Done. No device exists at IP address " + data[deviceMac]['ip'] + ". JSON will be updated.")
                     rescanNetwork = 1
             else:
-                print("Done. No device exists at IP address " + data[deviceMac]['ip'] + ". JSON will be updated.")
+                print("IP address is not on the network, rescan to check if it's changed and to determine if device is on network still.")
                 rescanNetwork = 1
             print()
 
     if rescanNetwork == 1:
         print("Need to update some IP address, scanning networking now...")
-        with open('/network-devices-scanner/config.json') as json_file:
+        with open('./network-devices-scanner/config.json') as json_file:
             dataFile = json.load(json_file)
             scan = nmap.scan_top_ports(dataFile['network'])
             print("Finished scanning network.")
             for scan_ip in scan:
-                print("IP: " + scan_ip)
-                if get_mac_address(ip=scan_ip) != None:
-                    print("IP MAC: " + get_mac_address(ip=scan_ip))
                 for deviceMac in data:
-                    print("MAC: " + deviceMac)
-                    if get_mac_address(ip=scan_ip) == deviceMac:
+                    themac = get_mac_address(ip=scan_ip)
+                    if themac != None and themac.upper() == deviceMac:
                         print(data[deviceMac]['name'] + " is on the network with IP address " + scan_ip)
-                        data[deviceMac]['ip'] = scan_ip
                         isSomeoneHome = 1
-                        updateJsonFile = 1
+                        if scan_ip != data[deviceMac]['ip']:
+                            data[deviceMac]['ip'] = scan_ip
+                            updateJsonFile = 1
 
     print()
     if updateJsonFile == 1:
         print("Updating JSON file.")
-        with open('/network-devices-scanner/devices.json', 'w') as outfile:
+        with open('./network-devices-scanner/devices.json', 'w') as outfile:
             json.dump(data, outfile, indent=4)
             print("Updated JSON file.")
     else:
         print("JSON file does not need updating.")
 
     print()
-    with open('/network-devices-scanner/config.json') as json_file:
+    with open('./network-devices-scanner/config.json') as json_file:
         data = json.load(json_file)
         if isSomeoneHome == 1:
             print("One or more requested devices are on the network. Sending request...")
