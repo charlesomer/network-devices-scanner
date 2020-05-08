@@ -2,6 +2,7 @@ import sched, time
 import json
 import nmap3
 import requests
+import os
 import copy
 from datetime import datetime, timedelta
 from getmac import get_mac_address
@@ -13,10 +14,14 @@ def checkForDevices(sc):
     print("START at " + datetime.now().strftime("%Y-%m-%d %H:%M"))
     print("Checking for devices.")
 
+    directoryPath = os.path.dirname(os.path.abspath('./config-files/config.json'))
+    devicesJSONFilePath = directoryPath + '/devices.json'
+    configJSONFilePath = directoryPath + '/config.json'
+
     # Open files.
-    with open('./config-files/devices.json') as json_file:
+    with open(devicesJSONFilePath) as json_file:
         devicesJSON = json.load(json_file)
-    with open('./config-files/config.json') as json_file:
+    with open(configJSONFilePath) as json_file:
         configJSON = json.load(json_file)
 
     # Set vars.
@@ -76,7 +81,7 @@ def checkForDevices(sc):
     print()
     if devicesJSON != devicesJSONOriginal:
         print("Updating JSON file.")
-        with open('./config-files/devices.json', 'w') as outfile:
+        with open(configJSONFilePath, 'w') as outfile:
             json.dump(devicesJSON, outfile, indent=4)
             print("Updated JSON file.")
     else:
