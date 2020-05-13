@@ -14,9 +14,9 @@ def checkForDevices(sc):
     print("START at " + datetime.now().strftime("%Y-%m-%d %H:%M"))
     print("Checking for devices.")
 
-    directoryPath = os.path.dirname(os.path.abspath('./config-files/config.json'))
-    devicesJSONFilePath = directoryPath + '/devices.json'
-    configJSONFilePath = directoryPath + '/config.json'
+    directoryPath = os.path.dirname(__file__)
+    devicesJSONFilePath = os.path.join(directoryPath, 'config-files/devices.json')
+    configJSONFilePath = os.path.join(directoryPath, 'config-files/config.json')
 
     # Open files.
     with open(devicesJSONFilePath) as json_file:
@@ -81,7 +81,7 @@ def checkForDevices(sc):
     print()
     if devicesJSON != devicesJSONOriginal:
         print("Updating JSON file.")
-        with open(configJSONFilePath, 'w') as outfile:
+        with open(devicesJSONFilePath, 'w') as outfile:
             json.dump(devicesJSON, outfile, indent=4)
             print("Updated JSON file.")
     else:
